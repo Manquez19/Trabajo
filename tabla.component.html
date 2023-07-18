@@ -1,0 +1,90 @@
+<style>
+    .container {
+      margin-top: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 10px;
+    }
+    
+    .btn-primary {
+      margin-right: 5px;
+    }
+    
+    .btn-danger {
+      margin-right: 5px;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #be0000;
+    }
+    
+    th {
+      background-color: #c05151;
+    }
+  </style>
+  
+  <div class="container">
+    <h2>Tabla de Registros</h2>
+  
+    <form [formGroup]="registroForm" (ngSubmit)="submitForm()">
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input type="text" formControlName="nombre" class="form-control" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="apellido">Apellido:</label>
+        <input type="text" formControlName="apellido" class="form-control" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="edad">Edad:</label>
+        <input type="number" formControlName="edad" class="form-control" required>
+      </div>
+  
+      <button type="submit" class="btn btn-primary">Agregar/Actualizar</button>
+    </form>
+  
+    <p-table [value]="data" [paginator]="true" [rows]="10" (sort)="onSort($event)">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>
+            <p-sortIcon field="nombre"></p-sortIcon>
+            Nombre
+            <input pInputText type="text" #nombreInput placeholder="Filtrar" (input)="filter(nombreInput.value, 'nombre')">
+          </th>
+          <th>
+            <p-sortIcon field="apellido"></p-sortIcon>
+            Apellido
+            <input pInputText type="text" #apellidoInput placeholder="Filtrar" (input)="filter(apellidoInput.value, 'apellido')">
+          </th>
+          <th>
+            <p-sortIcon field="edad"></p-sortIcon>
+            Edad
+            <input pInputText type="text" #edadInput placeholder="Filtrar" (input)="filter(edadInput.value, 'edad')">
+          </th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-registro>
+        <tr>
+          <td>{{ registro.nombre }}</td>
+          <td>{{ registro.apellido }}</td>
+          <td>{{ registro.edad }}</td>
+          <td>
+            <button class="btn btn-primary" (click)="editarRegistro(registro)">Editar</button>
+            <button class="btn btn-danger" (click)="eliminarRegistro(registro)">Eliminar</button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  
